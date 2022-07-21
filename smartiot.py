@@ -1,4 +1,5 @@
 # Smart IoT Library
 
 def version():
-  print('Hola mundo: Smart IoT Library ver. 1.0')
+  ''' Shows SmartIoT library version '''
+  print('Smart IoT Library ver. 1.0')
