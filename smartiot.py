@@ -12,6 +12,14 @@ def version():
   print('Smart IoT Library ver. 0.4')
   print('torchaudio ver.', torchaudio.__version__)
 
+def wave_size(wave):
+  ''' Returns wave memory size '''
+  if wave.ndim == 1:
+    channels, frames = 1, wave.shape[0]
+  else:
+    channels, frames = wave.shape
+  return wave.element_size() * channels * frames  
+
 def load_audio(url, fname):
   '''
     Retrieve audio file from URL and saves with a filename 
@@ -36,7 +44,7 @@ def print_info(info, fname=None):
   print(f'     Frames: {frames}')
   print(f'   Channels: {channels}')
   print(f'  File size: {sz} bytes')
-  print(f'Tensor size: {wave.element_size() * channels * frames} bytes')
+  print(f'Tensor size: {wave_size(wave)} bytes')
   print(f'      Dtype: {wave.dtype}')
   print(f'        Max: {wave.max().item():6.3f}')
   print(f'        Min: {wave.min().item():6.3f}')
@@ -56,16 +64,19 @@ def plot_fft(wave, max_freq=None):
   plt.figure()
   plt.plot(wave3, lw=1, color='green')
 
-def play_audio(waveform, sample_rate, torch=True):
-  ''' Play audio using PyTorch or Numpy waves'''
+def play_audio(wave, sample_rate, torch=True):
+  ''' Plays PyTorch/NumPy audio signals '''
+  channels = (1 if wave.ndim == 1 else wave.shape[0])
   if torch:
-    waveform = waveform.numpy()
-    num_channels, _ = waveform.shape
-    if num_channels == 1:
-      display(Audio(waveform[0], rate=sample_rate))
-    elif num_channels == 2:
-      display(Audio((waveform[0], waveform[1]), rate=sample_rate))
+    wave = wave.numpy()
+    if channels == 1:
+      display(Audio(wave, rate=sample_rate))
+    elif channels == 2:
+      display(Audio((wave[0], wave[1]), rate=sample_rate))
     else:
       raise ValueError("Waveform with more than 2 channels are not supported.")
   else: # numpy array
-    display(Audio(waveform, rate=sample_rate))
+    if channels == 1:
+      display(Audio(wave, rate=sample_rate))
+    else:
+      display(Audio((wave[0], wave[1]), rate=sample_rate))
