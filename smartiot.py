@@ -9,7 +9,7 @@ from IPython.display import Audio, display
 
 def version():
   ''' Shows Smar IoT library version '''
-  print('Smart IoT Library ver. 0.3')
+  print('Smart IoT Library ver. 0.4')
   print('torchaudio ver.', torchaudio.__version__)
 
 def load_audio(url, fname):
@@ -48,6 +48,13 @@ def plot_wave(wave, torch=True):
   ''' Plot PyTorch or NumPy wave signal '''
   plt.figure()
   plt.plot(wave[0].numpy() if torch else wave)
+ 
+def plot_fft(wave, max_freq=None):
+  ''' Display fft signal from 0 - max_freq range'''
+  wave2 = wave[:max_freq] if max_freq else wave
+  wave3 = np.abs(wave2.real)
+  plt.figure()
+  plt.plot(wave3, lw=1, color='green')
 
 def play_audio(waveform, sample_rate, torch=True):
   ''' Play audio using PyTorch or Numpy waves'''
