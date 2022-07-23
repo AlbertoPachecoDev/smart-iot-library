@@ -1,19 +1,19 @@
 # Smart IoT Library
 
 import requests
-import torchaudio
+import torch
 import torchaudio
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import Audio, display
 
 def version():
-  ''' Shows Smar IoT library version '''
+  ''' Shows Smart IoT library version '''
   print('Smart IoT Library ver. 0.4')
   print('torchaudio ver.', torchaudio.__version__)
 
 def wave_size(wave):
-  ''' Returns wave memory size '''
+  ''' Returns the wave object memory size '''
   if wave.ndim == 1:
     channels, frames = 1, wave.shape[0]
   else:
@@ -22,8 +22,8 @@ def wave_size(wave):
 
 def load_audio(url, fname):
   '''
-    Retrieve audio file from URL and saves with a filename 
-    Returns audio-wave, sample-rate, metada, bytes-size
+    Retrieves audio file from URL and saves with a filename 
+    Returns audio-wave, sample-rate, metada & bytes-size
   '''
   r = requests.get(url)
   with open(fname, 'wb') as f:
@@ -34,7 +34,7 @@ def load_audio(url, fname):
   return (wave, sr, meta, sz)
 
 def print_info(info, fname=None):
-  ''' Shows audio metadata information using load_audio tuple ''' 
+  ''' Shows audio metadata information using load_audio() return tuple value ''' 
   if fname:
     print('-' * 30)
     print('   Filename:', fname)
@@ -53,12 +53,12 @@ def print_info(info, fname=None):
   print(wave)
 
 def plot_wave(wave, torch=True):
-  ''' Plot PyTorch or NumPy wave signal '''
+  ''' Plots PyTorch or NumPy waves '''
   plt.figure()
   plt.plot(wave[0].numpy() if torch else wave)
  
 def plot_fft(wave, max_freq=None):
-  ''' Display fft signal from 0 - max_freq range'''
+  ''' Displays fft signal from 0 - max_freq range'''
   wave2 = wave[:max_freq] if max_freq else wave
   wave3 = np.abs(wave2.real)
   plt.figure()
