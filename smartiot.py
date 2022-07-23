@@ -1,4 +1,5 @@
 # Smart IoT Library
+# Author: Alberto Pacheco (alberto@acm.org) 2022
 
 import requests
 import torch
@@ -34,7 +35,7 @@ def load_audio(url, fname):
   return (wave, sr, meta, sz)
 
 def print_info(info, fname=None):
-  ''' Shows audio metadata information using load_audio() return tuple value ''' 
+  ''' Shows audio metadata using load_audio() return tuple value ''' 
   if fname:
     print('-' * 30)
     print('   Filename:', fname)
@@ -53,7 +54,7 @@ def print_info(info, fname=None):
   print(wave)
 
 def plot_wave(wave, torch=True):
-  ''' Plots PyTorch or NumPy waves '''
+  ''' Plots PyTorch/NumPy waves '''
   plt.figure()
   plt.plot(wave[0].numpy() if torch else wave)
  
